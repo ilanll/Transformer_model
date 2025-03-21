@@ -71,8 +71,6 @@ Next, we will have to implement the Embedding layer.
 
 1.   forward: compute the output embeddings from the input_embeds and position_embeds
 
-
-
 """
 
 torch.manual_seed(0) # set seed for reproducible random initialization of weights
@@ -113,7 +111,6 @@ embeddings = embedding_layer(inputs['input_ids'])
 
 """# 2. Attention Block 
 The next step is writing the attention block. It mainly consits of the self-attention function, a layer normalization followed by an additional projection layer.
-
 """
 
 torch.manual_seed(0)
@@ -136,7 +133,6 @@ class AttentionBlock(nn.Module):
         self.lin1 = nn.Linear(in_features=config.dim, out_features=3072, bias=True)
         self.lin2 = nn.Linear(in_features=3072, out_features=config.dim, bias=True)
         self.output_layer_norm = nn.LayerNorm(normalized_shape=config.dim, eps=config.eps)
-
 
     def forward(self, hidden_states):
 
@@ -264,7 +260,6 @@ Let's now look at what tokens the model selects in its self-attention blocks.
 import numpy as np
 import matplotlib.pyplot as plt
 
-# YOUR CODE HERE #
 subtokens = tokenizer.convert_ids_to_tokens(list(inputs['input_ids'].squeeze()))
 A = np.array([model.attention_probs[i].detach().cpu().numpy().squeeze() for i in range(config.n_layers)])
 A_avg = A.mean(1)
